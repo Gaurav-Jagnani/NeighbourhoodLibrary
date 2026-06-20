@@ -1,0 +1,10 @@
+node_modules/
+.mypy_cache/
+__pycache__/
+.venv/
+postgres_data/
+dist/
+build/
+.env
+*.pyc
+.vscode/
