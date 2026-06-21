@@ -39,7 +39,7 @@ export function Borrowed() {
     console.log("--------", getValues(), valid);
     if (!valid) return;
     const vals = getValues();
-    await borrowMutation.mutate(vals);
+    await borrowMutation.mutateAsync(vals);
     queryClient.invalidateQueries(["borrows"]);
   };
 
