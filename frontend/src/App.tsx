@@ -82,16 +82,18 @@ function Sidebar() {
         {sidebarBtn(<BookOpen />, "Books", "books")}
         {sidebarBtn(<User />, "Users", "users")}
       </div>
-      <Button
-        className="text-md mt-auto flex gap-2 font-semibold"
-        onClick={() => {
-          localStorage.removeItem("token");
-          navigate("/login");
-        }}
-      >
-        <LogOut />
-        {expanded && "Logout"}
-      </Button>
+      {localStorage.getItem("token") && (
+        <Button
+          className="text-md mt-auto flex gap-2 font-semibold"
+          onClick={() => {
+            localStorage.removeItem("token");
+            navigate("/login");
+          }}
+        >
+          <LogOut />
+          {expanded && "Logout"}
+        </Button>
+      )}
     </div>
   );
 }
@@ -116,6 +118,7 @@ export default function App() {
 
             <div className="flex-1 overflow-y-auto">
               <Routes>
+                <Route path="/" element={<Navigate to="/borrowed" replace />} />
                 <Route Component={Login} path="/login"></Route>
                 <Route
                   element={

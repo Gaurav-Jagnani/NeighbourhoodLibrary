@@ -41,14 +41,19 @@ ALTER TABLE public.borrow ADD CONSTRAINT fk_borrow_book FOREIGN KEY (book_id) RE
 ALTER TABLE public.borrow ADD CONSTRAINT fk_borrow_user FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
+
 INSERT INTO public.books
 ("name", thumbnail_image_name, description, quantity, author, publisher, created_at, updated_at)
 VALUES
-('Atomic Habits', 'atomic_habits.jpg', 'Book about habit formation', 10, 'James Clear', 'Penguin', '2026-06-20 14:30:41.934', '2026-06-20 14:30:41.934'),
-('Clean Code', 'clean_code.jpg', 'Book about writing maintainable code', 5, 'Robert C. Martin', 'Prentice Hall', '2026-06-20 14:30:41.934', '2026-06-20 14:30:41.934'),
+('Wings of Fire', 'wings_of_fire.jpg', 'Autobiography of A.P.J. Abdul Kalam', 10, 'A.P.J. Abdul Kalam', 'Universities Press', '2026-06-20 14:30:41.934', '2026-06-20 14:30:41.934'),
+
+('Ignited Minds', 'ignited_minds.jpg', 'Book on transforming India', 6, 'A.P.J. Abdul Kalam', 'Penguin India', '2026-06-20 14:30:41.934', '2026-06-20 14:30:41.934'),
+
 ('The Alchemist', 'alchemist.jpg', 'Novel about following dreams', 8, 'Paulo Coelho', 'HarperCollins', '2026-06-20 14:30:41.934', '2026-06-20 14:30:41.934'),
+
 ('Harry Potter', 'hp.jpg', 'Fantasy novel', 12, 'J.K. Rowling', 'Bloomsbury', '2026-06-20 14:30:41.934', '2026-06-20 14:30:41.934'),
-('Deep Work', 'deep_work.jpg', 'Book about focused work', 6, 'Cal Newport', 'Grand Central', '2026-06-20 14:30:41.934', '2026-06-20 14:30:41.934');
+
+('The Guide', 'the_guide.jpg', 'Classic Indian novel', 12, 'R.K. Narayan', 'Indian Thought Publications', '2026-06-20 14:30:41.934', '2026-06-20 14:30:41.934');
 
 INSERT INTO public.users
 ("name", email, "password", phone, address, created_at)

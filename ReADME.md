@@ -1,18 +1,53 @@
 # Neighbourhood Library
 
-A full-stack library management application built with:
+A full-stack **Library Management System** built with:
 
 - React + Vite + TypeScript
 - FastAPI
 - PostgreSQL
 - Docker
 
+---
+
+## Preview
+
+![Application Preview](./screenshots/Books.png)
+
+---
+
 ## Features
 
 - Manage books
 - Manage users
-- Borrow / return books
-- Autentication
+- Borrow books
+- Return books
+- Authentication
+- Dark mode support
+
+---
+
+## Tech Stack
+
+### Frontend
+
+- React
+- Vite
+- TypeScript
+- Tailwind CSS
+
+### Backend
+
+- FastAPI
+- Python
+
+### Database
+
+- PostgreSQL
+
+### DevOps
+
+- Docker
+- Docker Compose
 
 ---
 
@@ -39,19 +74,19 @@ docker compose up --build
 
 ## Access Application
 
-Frontend:
+### Frontend
 
 ```text
-http://localhost:5173
+http://localhost:80
 ```
 
-Backend API:
+### Backend API
 
 ```text
 http://localhost:8000
 ```
 
-PostgreSQL:
+### PostgreSQL
 
 ```text
 localhost:5432
@@ -69,6 +104,48 @@ Password: postgres
 
 ## Screenshots
 
-TBA
+### Login
+
+![Login](./screenshots/Login.png)
+
+### Books
+
+![Books](./screenshots/Books.png)
+
+### Books (Dark Mode)
+
+![Books Dark Mode](./screenshots/Books_dark_mode.png)
+
+### Users
+
+![Users](./screenshots/Users.png)
+
+### Borrows
+
+![Borrows](./screenshots/Borrows.png)
+
+---
+
+## Project Structure
+
+```text
+NeighbourhoodLibrary/
+│
+├── frontend/        # React app
+├── backend/         # FastAPI app
+├── screenshots/
+├── docker-compose.yml
+└── README.md
+```
+
+---
+
+## Future Improvements
+
+- JWT authentication
+- Search and filters
+- Fine calculation for overdue books
+- Dashboard analytics
+- Role-based access control
 
 ---

@@ -4,8 +4,10 @@ services:
     build: ./backend
     ports:
       - "8000:8000"
-    volumes:
-      - ./backend:/app
+    # volumes:
+    # - ./backend:/app
+    depends_on:
+      - postgres
   frontend:
     container_name: library_frontend
     # build: ./frontend
@@ -18,6 +20,8 @@ services:
     # volumes:
     #   - ./frontend:/app
     #   - /app/node_modules
+    depends_on:
+      - backend
   postgres:
     image: postgres:17
     container_name: library_postgres
