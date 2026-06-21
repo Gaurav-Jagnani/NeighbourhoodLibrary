@@ -60,7 +60,11 @@ export function login(payload: { username: string; password: string }) {
   return api.post("/auth/login", payload);
 }
 
-export function borrow(payload: { book_id: number; user_id: number }) {
+export function borrow(payload: {
+  book_id: number;
+  user_id: number;
+  due_date: string;
+}) {
   return api.post("/borrow/borrow", payload);
 }
 

@@ -10,10 +10,27 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 export function Borrowed() {
   const borrowSchema = z.object({
-    book_id: z.string().refine((v) => v !== "0", { message: "Incorrect id" }),
-    user_id: z.string().refine((v) => v !== "0", { message: "Incorrect id" }),
+    book_id: z.string().refine((v) => v !== "0", { message: "Select book" }),
+    user_id: z.string().refine((v) => v !== "0", { message: "Select user" }),
+    due_date: z.string().refine(
+      (val) => {
+        const selected = new Date(val);
+
+        const tomorrow = new Date();
+        tomorrow.setHours(0, 0, 0, 0);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        return selected >= tomorrow;
+      },
+      { message: "Date should be later than today" }
+    ),
   });
-  const { register, getValues, trigger } = useForm({
+  const {
+    register,
+    getValues,
+    trigger,
+    formState: { errors },
+  } = useForm({
     resolver: zodResolver(borrowSchema),
     mode: "onChange",
   });
@@ -51,37 +68,71 @@ export function Borrowed() {
     await returnBookMutation.mutateAsync({ borrow_id });
     queryClient.invalidateQueries(["borrows"]);
   };
+  const getTomorrowDate = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    // const minDate =
+    return (
+      `${tomorrow.getFullYear()}-` +
+      `${String(tomorrow.getMonth() + 1).padStart(2, "0")}-` +
+      `${String(tomorrow.getDate()).padStart(2, "0")}`
+    );
+  };
 
   return (
     <div>
       {usersQuery.data && booksQuery.data && (
-        <div className="flex items-center gap-4 p-4">
-          <Select defaultValue={0} {...register("user_id")}>
-            <option disabled value={0} key={"default"}>
-              Select user
-            </option>
-            {usersQuery.data.map((u) => (
-              <option value={parseInt(u.id)} key={u.id}>
-                {u.name}
+        <div className="mb-4 flex items-center gap-4 rounded-lg border bg-card p-4 text-card-foreground">
+          <div className="flex flex-col gap-1">
+            <Select className="h-10" defaultValue={0} {...register("user_id")}>
+              <option disabled value={0} key={"default"}>
+                Select user
               </option>
-            ))}
-          </Select>
-
-          <Select defaultValue={0} {...register("book_id")}>
-            <option disabled value={0} key={"default"}>
-              Select book
-            </option>
-
-            {booksQuery.data.map((b) => (
-              <option value={parseInt(b.id)} key={b.id}>
-                {b.name}
-              </option>
-            ))}
-          </Select>
-          <Button className="text-lg font-semibold" onClick={borrowBook}>
-            <p className="flex gap-2">
-              {borrowMutation.isPending && <Spinner />}Borrow
+              {usersQuery.data.map((u) => (
+                <option value={parseInt(u.id)} key={u.id}>
+                  {u.name}
+                </option>
+              ))}
+            </Select>
+            <p className="text-xs text-destructive">
+              {errors.user_id && errors.user_id?.message}
             </p>
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <Select className="h-10" defaultValue={0} {...register("book_id")}>
+              <option disabled value={0} key={"default"}>
+                Select book
+              </option>
+
+              {booksQuery.data.map((b) => (
+                <option value={parseInt(b.id)} key={b.id}>
+                  {b.name}
+                </option>
+              ))}
+            </Select>
+            <p className="text-xs text-destructive">
+              {errors.book_id && errors.book_id?.message}
+            </p>
+          </div>
+          <div>
+            <input
+              {...register("due_date")}
+              type="date"
+              className="h-10 rounded-md border bg-background px-3 text-sm"
+              min={getTomorrowDate()}
+              defaultValue={getTomorrowDate()}
+            />
+            <p className="text-xs text-destructive">
+              {errors.due_date && errors.due_date?.message}
+            </p>
+          </div>
+
+          <Button className="text-lg font-semibold" onClick={borrowBook}>
+            <div className="flex gap-2">
+              {borrowMutation.isPending && <Spinner />}Borrow
+            </div>
           </Button>
           {borrowMutation.error && (
             <p className="font-semibold text-destructive">

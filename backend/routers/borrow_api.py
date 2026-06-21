@@ -6,6 +6,7 @@ from db import get_connection
 from sqlalchemy import select, insert, update, and_
 from schemas import Book
 from models import BorrowModel, UserModel, BookModel
+from datetime import date
 
 borrow_api = APIRouter()
 
@@ -13,6 +14,7 @@ borrow_api = APIRouter()
 class Borrow(BaseModel):
     book_id: int
     user_id: int
+    due_date: date
 
 
 @borrow_api.get("/")
@@ -51,7 +53,8 @@ def borrow_book(borrow: Borrow, db_conn=Depends(get_connection)):
         insert(BorrowModel).values(
             user_id=borrow.user_id,
             book_id=borrow.book_id,
-            due_date=date.today() + timedelta(days=7),
+            # due_date=date.today() + timedelta(days=7),
+            due_date=borrow.due_date,
             status="BORROWED",
         )
     )
