@@ -13,10 +13,9 @@ class Book(BaseModel):
 
 
 class User(BaseModel):
-    # id: int
+    id: int | None
     name: str
     email: str
     password: str
     address: str | None
     phone: str | None
-    address: str | None

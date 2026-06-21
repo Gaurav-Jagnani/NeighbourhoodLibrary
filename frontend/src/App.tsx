@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Sun,
   Moon,
+  LogOut,
   SquareLibrary,
   ArrowLeft,
   BookOpen,
@@ -60,7 +61,7 @@ function Sidebar() {
   const sidebarBtn = (icon, name, path) => {
     return (
       <Link to={path}>
-        <Button className="flex gap-4">
+        <Button className="flex w-full gap-4">
           {icon}
           {expanded && name}
         </Button>
@@ -82,13 +83,14 @@ function Sidebar() {
         {sidebarBtn(<User />, "Users", "users")}
       </div>
       <Button
-        className="text-md mt-auto font-semibold"
+        className="text-md mt-auto flex gap-2 font-semibold"
         onClick={() => {
           localStorage.removeItem("token");
           navigate("/login");
         }}
       >
-        Logout
+        <LogOut />
+        {expanded && "Logout"}
       </Button>
     </div>
   );

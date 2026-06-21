@@ -22,19 +22,19 @@ def add_user(user: User, db_conn=Depends(get_connection)):
         db_conn.commit()
         return "Added successfully"
     except Exception as e:
-        raise HTTPException(status_code=400, detail="Failed to add user")
+        raise HTTPException(status_code=400, detail="Failed to add user: " + str(e))
 
 
 @users_api.post("/update")
-def update_user(user_id: int, book: User, db_conn=Depends(get_connection)):
+def update_user(user: User, db_conn=Depends(get_connection)):
     try:
         s = (
             update(UserModel)
-            .where(UserModel.id == user_id)
-            .values({**book.model_dump()})
+            .where(UserModel.id == user.id)
+            .values({**user.model_dump(exclude={"id"})})
         )
         db_conn.execute(s)
         db_conn.commit()
         return "Updated successfully"
     except Exception as e:
-        raise HTTPException(status_code=400, detail="Failed to add user")
+        raise HTTPException(status_code=400, detail="Failed to add user: " + str(e))

@@ -38,6 +38,13 @@ export function getUsers() {
   return api.get("/users");
 }
 
+export function createUser(payload) {
+  return api.post("/users/add", payload);
+}
+export function updateUser(payload) {
+  return api.post("/users/update", payload);
+}
+
 export function getBorrows() {
   return api.get("/borrow");
 }
