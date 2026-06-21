@@ -125,27 +125,3 @@ Password: postgres
 ![Borrows](./screenshots/Borrows.png)
 
 ---
-
-## Project Structure
-
-```text
-NeighbourhoodLibrary/
-│
-├── frontend/        # React app
-├── backend/         # FastAPI app
-├── screenshots/
-├── docker-compose.yml
-└── README.md
-```
-
----
-
-## Future Improvements
-
-- JWT authentication
-- Search and filters
-- Fine calculation for overdue books
-- Dashboard analytics
-- Role-based access control
-
----
