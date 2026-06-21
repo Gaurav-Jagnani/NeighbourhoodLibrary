@@ -17,7 +17,7 @@ def get_books(db_conn=Depends(get_connection)):
 @books_api.post("/add")
 def add_book(book: Book, db_conn=Depends(get_connection)):
     try:
-        s = insert(BookModel).values({**book.model_dump()})
+        s = insert(BookModel).values({**book.model_dump(exclude={"id"})})
         db_conn.execute(s)
         db_conn.commit()
         return "Added successfully"
@@ -26,7 +26,7 @@ def add_book(book: Book, db_conn=Depends(get_connection)):
 
 
 @books_api.post("/update")
-def update_user(book: Book, db_conn=Depends(get_connection)):
+def update_book(book: Book, db_conn=Depends(get_connection)):
     try:
         s = (
             update(BookModel)

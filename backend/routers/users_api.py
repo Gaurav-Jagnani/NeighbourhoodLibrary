@@ -17,7 +17,7 @@ def get_books(db_conn=Depends(get_connection)):
 @users_api.post("/add")
 def add_user(user: User, db_conn=Depends(get_connection)):
     try:
-        s = insert(UserModel).values({**user.model_dump()})
+        s = insert(UserModel).values({**user.model_dump(exclude={"id"})})
         db_conn.execute(s)
         db_conn.commit()
         return "Added successfully"

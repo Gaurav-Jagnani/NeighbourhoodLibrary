@@ -2,18 +2,17 @@ from pydantic import BaseModel
 
 
 class Book(BaseModel):
-    # id: int
+    id: int | None = None
     name: str
     description: str | None
-    author: str | None
-    thumbnail_image_name: str | None
+    # thumbnail_image_name: str | None
     # quantity: int
     author: str | None
     publisher: str | None
 
 
 class User(BaseModel):
-    id: int | None
+    id: int | None = None
     name: str
     email: str
     password: str

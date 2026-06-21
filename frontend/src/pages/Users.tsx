@@ -18,7 +18,7 @@ function UserForm({ selectedUser, closeFn }) {
     password: z.string().min(4, "Min 4 chars required"),
     phone: z.string().min(4, "Min 4 chars required"),
     address: z.string().min(4, "Min 4 chars required"),
-    email: z.string().min(4, "Min 4 chars required"),
+    email: z.email().min(4, "Min 4 chars required"),
   });
 
   const {
@@ -70,7 +70,7 @@ function UserForm({ selectedUser, closeFn }) {
         <p className="text-xs text-destructive">{errors.phone?.message}</p>
         <Input {...register("address")} placeholder="Address" />
         <p className="text-xs text-destructive">{errors.address?.message}</p>
-        <Input {...register("email")} placeholder="Email" />
+        <Input type="email" {...register("email")} placeholder="Email" />
         <p className="text-xs text-destructive">{errors.email?.message}</p>
       </div>
       <div className="ml-auto flex flex-col items-end">
@@ -128,42 +128,44 @@ export function Users() {
             <thead>
               <tr>
                 <th className="text-md px-4 py-2 text-left font-semibold">
-                  id
+                  ID
                 </th>
                 <th className="text-md px-4 py-2 text-left font-semibold">
-                  name
+                  Name
                 </th>
                 <th className="text-md px-4 py-2 text-left font-semibold">
-                  email
+                  Email
                 </th>
                 <th className="text-md px-4 py-2 text-left font-semibold">
-                  phone
+                  Phone
                 </th>
                 <th className="text-md px-4 py-2 text-left font-semibold">
-                  address
+                  Address
                 </th>
               </tr>
             </thead>
             <tbody>
-              {data.map((r) => (
-                <tr key={r.id}>
-                  <td className="px-4 py-2">{r.id}</td>
-                  <td className="px-4 py-2">{r.name}</td>
-                  <td className="px-4 py-2">{r.email}</td>
-                  <td className="px-4 py-2">{r.phone}</td>
-                  <td className="truncate px-4 py-2">{r.address}</td>
-                  <td className="truncate px-4 py-2">
-                    <Button
-                      onClick={() => {
-                        setselectedUser(r);
-                        setshowUserDialog(true);
-                      }}
-                    >
-                      <SquarePen />
-                    </Button>
-                  </td>
-                </tr>
-              ))}
+              {data
+                .sort((a, b) => b.id - a.id)
+                .map((r) => (
+                  <tr key={r.id}>
+                    <td className="px-4 py-2">{r.id}</td>
+                    <td className="px-4 py-2">{r.name}</td>
+                    <td className="px-4 py-2">{r.email}</td>
+                    <td className="px-4 py-2">{r.phone}</td>
+                    <td className="truncate px-4 py-2">{r.address}</td>
+                    <td className="truncate px-4 py-2">
+                      <Button
+                        onClick={() => {
+                          setselectedUser(r);
+                          setshowUserDialog(true);
+                        }}
+                      >
+                        <SquarePen />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>

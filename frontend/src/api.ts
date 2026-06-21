@@ -45,6 +45,13 @@ export function updateUser(payload) {
   return api.post("/users/update", payload);
 }
 
+export function createBook(payload) {
+  return api.post("/books/add", payload);
+}
+export function updateBook(payload) {
+  return api.post("/books/update", payload);
+}
+
 export function getBorrows() {
   return api.get("/borrow");
 }

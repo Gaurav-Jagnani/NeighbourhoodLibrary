@@ -30,7 +30,7 @@ def get_borrows(db_conn=Depends(get_connection)):
             BookModel.name.label("book_name"),
         )
         .join(UserModel, BorrowModel.user_id == UserModel.id)
-        .join(BookModel, BorrowModel.user_id == BookModel.id)
+        .join(BookModel, BorrowModel.book_id == BookModel.id)
     )
     res = db_conn.execute(s)
     return [r._mapping for r in res]
@@ -38,6 +38,11 @@ def get_borrows(db_conn=Depends(get_connection)):
 
 @borrow_api.post("/borrow")
 def borrow_book(borrow: Borrow, db_conn=Depends(get_connection)):
+    existing = db_conn.execute(
+        select(BorrowModel).where(BorrowModel.book_id == borrow.book_id)
+    ).first()
+    if existing:
+        raise HTTPException(status_code=400, detail="Book is already borrowed.")
     db_conn.execute(
         insert(BorrowModel).values(
             user_id=borrow.user_id,

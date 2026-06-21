@@ -56,7 +56,7 @@ export function Borrowed() {
   return (
     <div>
       {usersQuery.data && booksQuery.data && (
-        <div className="flex gap-4 p-4">
+        <div className="flex items-center gap-4 p-4">
           <Select defaultValue={0} {...register("user_id")}>
             <option disabled value={0} key={"default"}>
               Select user
@@ -84,6 +84,11 @@ export function Borrowed() {
               {borrowMutation.isPending && <Spinner />}Borrow
             </p>
           </Button>
+          {borrowMutation.error && (
+            <p className="font-semibold text-destructive">
+              {borrowMutation.error?.data.detail}
+            </p>
+          )}
         </div>
       )}
 
@@ -117,31 +122,35 @@ export function Borrowed() {
               </tr>
             </thead>
             <tbody>
-              {data.map((r) => (
-                <tr key={r.id}>
-                  <td className="px-4 py-2">{r.id}</td>
-                  <td className="px-4 py-2">{r.book_name}</td>
-                  <td className="px-4 py-2">{r.user_name}</td>
-                  <td className="px-4 py-2">{r.borrowed_at}</td>
-                  <td className="px-4 py-2">{r.due_date}</td>
-                  <td className="px-4 py-2">
-                    {r.returned_at ? (
-                      r.returned_at
-                    ) : (
-                      <Button
-                        onClick={() => returnBookHandler(r.id)}
-                        className="flex gap-2"
-                      >
-                        <p>
-                          {returnBookMutation.isPending && <Spinner />}Return
-                        </p>
-                      </Button>
-                    )}
-                  </td>
-                  <td className="px-4 py-2">{r.status}</td>
-                  <td className="max-w-sm truncate px-4 py-2">{r.publisher}</td>
-                </tr>
-              ))}
+              {data
+                .sort((a, b) => b.id - a.id)
+                .map((r) => (
+                  <tr key={r.id}>
+                    <td className="px-4 py-2">{r.id}</td>
+                    <td className="px-4 py-2">{r.book_name}</td>
+                    <td className="px-4 py-2">{r.user_name}</td>
+                    <td className="px-4 py-2">{r.borrowed_at}</td>
+                    <td className="px-4 py-2">{r.due_date}</td>
+                    <td className="px-4 py-2">
+                      {r.returned_at ? (
+                        r.returned_at
+                      ) : (
+                        <Button
+                          onClick={() => returnBookHandler(r.id)}
+                          className="flex gap-2"
+                        >
+                          <p>
+                            {returnBookMutation.isPending && <Spinner />}Return
+                          </p>
+                        </Button>
+                      )}
+                    </td>
+                    <td className="px-4 py-2">{r.status}</td>
+                    <td className="max-w-sm truncate px-4 py-2">
+                      {r.publisher}
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
