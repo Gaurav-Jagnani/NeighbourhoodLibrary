@@ -1,7 +1,22 @@
 services:
+  backend:
+    container_name: library_backend
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+  frontend:
+    container_name: library_frontend
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
   postgres:
     image: postgres:17
-    container_name: postgres
+    container_name: library_postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres

@@ -46,12 +46,6 @@ export function Books() {
                   <td className="px-4 py-2">{r.description}</td>
                   <td className="px-4 py-2">{r.author}</td>
                   <td className="max-w-sm truncate px-4 py-2">{r.publisher}</td>
-                  <td>
-                    <Button>Borrow</Button>
-                  </td>
-                  <td>
-                    <Button>Return</Button>
-                  </td>
                 </tr>
               ))}
             </tbody>

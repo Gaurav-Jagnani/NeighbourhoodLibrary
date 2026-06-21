@@ -2,14 +2,21 @@ from pydantic import BaseModel
 
 
 class Book(BaseModel):
-    id: int
+    # id: int
     name: str
-    description: str
-    author: str
+    description: str | None
+    author: str | None
+    thumbnail_image_name: str | None
+    # quantity: int
+    author: str | None
+    publisher: str | None
 
 
 class User(BaseModel):
-    id: int
+    # id: int
     name: str
     email: str
-    address: str
+    password: str
+    address: str | None
+    phone: str | None
+    address: str | None

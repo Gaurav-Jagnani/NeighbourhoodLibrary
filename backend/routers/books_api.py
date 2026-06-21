@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from db import get_connection
-from sqlalchemy import select
+from sqlalchemy import select, insert, update
 from schemas import Book
 from models import BookModel
 
@@ -12,3 +12,29 @@ def get_books(db_conn=Depends(get_connection)):
     s = select(BookModel)
     res = db_conn.execute(s)
     return [r._mapping for r in res.fetchall()]
+
+
+@books_api.post("/add")
+def add_user(book: Book, db_conn=Depends(get_connection)):
+    try:
+        s = insert(BookModel).values({**book.model_dump()})
+        db_conn.execute(s)
+        db_conn.commit()
+        return "Added successfully"
+    except Exception as e:
+        raise HTTPException(status_code=400, detail="Failed to add user")
+
+
+@books_api.post("/update")
+def update_user(book_id: int, book: Book, db_conn=Depends(get_connection)):
+    try:
+        s = (
+            update(BookModel)
+            .where(BookModel.id == book_id)
+            .values({**book.model_dump()})
+        )
+        db_conn.execute(s)
+        db_conn.commit()
+        return "Updated successfully"
+    except Exception as e:
+        raise HTTPException(status_code=400, detail="Failed to add user")

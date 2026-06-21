@@ -19,7 +19,12 @@ import {
   Routes,
   Route,
   BrowserRouter,
+  Navigate,
+  useNavigate,
+  useLocation,
 } from "react-router-dom";
+import { Login } from "./pages/Login";
+
 const queryClient = new QueryClient();
 
 function DarkModeSwitch() {
@@ -63,6 +68,7 @@ function Sidebar() {
     );
   };
   const [expanded, setexpanded] = useState(true);
+  const navigate = useNavigate();
   return (
     <div className="flex h-screen flex-col gap-4 bg-sidebar p-4">
       <Button onClick={() => setexpanded(!expanded)} className="mb-16 ml-auto">
@@ -75,8 +81,26 @@ function Sidebar() {
         {sidebarBtn(<BookOpen />, "Books", "books")}
         {sidebarBtn(<User />, "Users", "users")}
       </div>
+      <Button
+        className="text-md mt-auto font-semibold"
+        onClick={() => {
+          localStorage.removeItem("token");
+          navigate("/login");
+        }}
+      >
+        Logout
+      </Button>
     </div>
   );
+}
+
+function ProtectedRoute({ children }) {
+  const location = useLocation();
+  if (!localStorage.getItem("token")) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
 }
 
 export default function App() {
@@ -90,9 +114,31 @@ export default function App() {
 
             <div className="flex-1 overflow-y-auto">
               <Routes>
-                <Route Component={Books} path="/books"></Route>
-                <Route Component={Users} path="/users"></Route>
-                <Route Component={Borrowed} path="/borrowed"></Route>
+                <Route Component={Login} path="/login"></Route>
+                <Route
+                  element={
+                    <ProtectedRoute>
+                      <Books />
+                    </ProtectedRoute>
+                  }
+                  path="/books"
+                ></Route>
+                <Route
+                  element={
+                    <ProtectedRoute>
+                      <Users />
+                    </ProtectedRoute>
+                  }
+                  path="/users"
+                ></Route>
+                <Route
+                  element={
+                    <ProtectedRoute>
+                      <Borrowed />
+                    </ProtectedRoute>
+                  }
+                  path="/borrowed"
+                ></Route>
               </Routes>
             </div>
           </div>
