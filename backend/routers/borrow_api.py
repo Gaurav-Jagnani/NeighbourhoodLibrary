@@ -3,7 +3,7 @@ from datetime import date, timedelta
 from pydantic import BaseModel
 from fastapi import APIRouter, Depends, HTTPException, Query
 from db import get_connection
-from sqlalchemy import select, insert, update
+from sqlalchemy import select, insert, update, and_
 from schemas import Book
 from models import BorrowModel, UserModel, BookModel
 
@@ -39,7 +39,11 @@ def get_borrows(db_conn=Depends(get_connection)):
 @borrow_api.post("/borrow")
 def borrow_book(borrow: Borrow, db_conn=Depends(get_connection)):
     existing = db_conn.execute(
-        select(BorrowModel).where(BorrowModel.book_id == borrow.book_id)
+        select(BorrowModel).where(
+            and_(
+                BorrowModel.book_id == borrow.book_id, BorrowModel.status == "BORROWED"
+            )
+        )
     ).first()
     if existing:
         raise HTTPException(status_code=400, detail="Book is already borrowed.")

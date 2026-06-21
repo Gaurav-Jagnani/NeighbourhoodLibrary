@@ -45,7 +45,6 @@ function UserForm({ selectedUser, closeFn }) {
     mutationFn: selectedUser ? updateUser : createUser,
   });
   const createUserHandler = async () => {
-    console.log("-----");
     const valid = await trigger();
     if (!valid) return;
     const vals = getValues();

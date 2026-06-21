@@ -36,7 +36,6 @@ export function Borrowed() {
   const queryClient = useQueryClient();
   const borrowBook = async () => {
     const valid = await trigger();
-    console.log("--------", getValues(), valid);
     if (!valid) return;
     const vals = getValues();
     await borrowMutation.mutateAsync(vals);
@@ -49,7 +48,7 @@ export function Borrowed() {
   });
 
   const returnBookHandler = async (borrow_id: number) => {
-    await returnBookMutation.mutate({ borrow_id });
+    await returnBookMutation.mutateAsync({ borrow_id });
     queryClient.invalidateQueries(["borrows"]);
   };
 
@@ -70,7 +69,7 @@ export function Borrowed() {
 
           <Select defaultValue={0} {...register("book_id")}>
             <option disabled value={0} key={"default"}>
-              <p className="font-semibold">Select book</p>
+              Select book
             </option>
 
             {booksQuery.data.map((b) => (

@@ -65,7 +65,6 @@ export function borrow(payload: { book_id: number; user_id: number }) {
 }
 
 export function returnBook(borrow_id: { borrow_id: number }) {
-  console.log(borrow_id);
   return api.post(
     "/borrow/return?" + new URLSearchParams(borrow_id).toString()
   );
