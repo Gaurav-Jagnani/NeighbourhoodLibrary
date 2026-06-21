@@ -119,6 +119,7 @@ Password: postgres
 ### Users
 
 ![Users](./screenshots/Users.png)
+![Add User](./screenshots/Add_user.png)
 
 ### Borrows
 

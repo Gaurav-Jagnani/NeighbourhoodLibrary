@@ -29,8 +29,8 @@ import { Login } from "./pages/Login";
 const queryClient = new QueryClient();
 
 function DarkModeSwitch() {
-  // const [dark, setdark] = useState("light");
-  const [dark, setdark] = useState("dark");
+  const [dark, setdark] = useState("light");
+  // const [dark, setdark] = useState("dark");
   useEffect(() => {
     document.body.classList.toggle("dark", dark === "dark");
   }, [dark]);
